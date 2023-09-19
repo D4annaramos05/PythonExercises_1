@@ -1,0 +1,114 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPQiYyJxil5XOnURFZqisbs",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/D4annaramos05/PythonExercises_1/blob/main/text%20analysis%20tool\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vTf51_T2S6iQ",
+        "outputId": "19c103f0-3e95-44c4-ea88-91fde7ac7778"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Enter the name of the text file: ia ejercicio.txt\n",
+            "Number of words: 173\n",
+            "Number of sentences: 10\n",
+            "Number of paragraphs: 9\n",
+            "Average word length: 5.46\n",
+            "\n",
+            "Most common words:\n",
+            "text: 9 times\n",
+            "words: 8 times\n",
+            "print: 7 times\n",
+            "f: 6 times\n",
+            "word: 6 times\n",
+            "filename: 5 times\n",
+            "if: 5 times\n",
+            "sentences: 4 times\n",
+            "paragraphs: 4 times\n",
+            "num_words: 4 times\n"
+          ]
+        }
+      ],
+      "source": [
+        "import re\n",
+        "from collections import Counter\n",
+        "\n",
+        "def read_file(filename):\n",
+        "    try:\n",
+        "        with open(filename, 'r', encoding='utf-8') as file:\n",
+        "            return file.read()\n",
+        "    except FileNotFoundError:\n",
+        "        print(f\"File '{filename}' not found.\")\n",
+        "        return None\n",
+        "\n",
+        "def analyze_text(text):\n",
+        "    if text is None:\n",
+        "        return\n",
+        "\n",
+        "    # Count words, sentences, and paragraphs\n",
+        "    words = re.findall(r'\\b\\w+\\b', text)\n",
+        "    sentences = re.split(r'[.!?]', text)\n",
+        "    paragraphs = text.split('\\n\\n')\n",
+        "\n",
+        "    num_words = len(words)\n",
+        "    num_sentences = len([s for s in sentences if s.strip()])\n",
+        "    num_paragraphs = len(paragraphs)\n",
+        "\n",
+        "    # Calculate average word length\n",
+        "    total_word_length = sum(len(word) for word in words)\n",
+        "    average_word_length = total_word_length / num_words if num_words > 0 else 0\n",
+        "\n",
+        "    # Identify most common words and their frequencies\n",
+        "    word_freq = Counter(words)\n",
+        "    most_common_words = word_freq.most_common(10)\n",
+        "\n",
+        "    # Display results\n",
+        "    print(f\"Number of words: {num_words}\")\n",
+        "    print(f\"Number of sentences: {num_sentences}\")\n",
+        "    print(f\"Number of paragraphs: {num_paragraphs}\")\n",
+        "    print(f\"Average word length: {average_word_length:.2f}\")\n",
+        "    print(\"\\nMost common words:\")\n",
+        "    for word, freq in most_common_words:\n",
+        "        print(f\"{word}: {freq} times\")\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    filename = input(\"Enter the name of the text file: \")\n",
+        "    text = read_file(filename)\n",
+        "    if text:\n",
+        "        analyze_text(text)\n"
+      ]
+    }
+  ]
+}
