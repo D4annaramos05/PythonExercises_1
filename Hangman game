@@ -1,0 +1,132 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOLFZhUI1OAayRoH0+jh3ur",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/D4annaramos05/PythonExercises_1/blob/main/Hangman%20game\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KnSJCYyJX2XV",
+        "outputId": "c24d489e-8339-46e5-d0e0-d25415638600"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Welcome to Hangman!\n",
+            "Try to guess the word.\n",
+            "\n",
+            "Word: ____\n",
+            "Guess a letter: o\n",
+            "Oops! That letter is not in the word.\n",
+            "\n",
+            "Word: ____\n",
+            "Guess a letter: i\n",
+            "Good guess!\n",
+            "\n",
+            "Word: _i__\n",
+            "Guess a letter: n\n",
+            "Good guess!\n",
+            "\n",
+            "Word: _in_\n",
+            "Guess a letter: k\n",
+            "Good guess!\n",
+            "\n",
+            "Word: _ink\n",
+            "Guess a letter: p\n",
+            "Good guess!\n",
+            "\n",
+            "Congratulations! You guessed the word: pink\n"
+          ]
+        }
+      ],
+      "source": [
+        "import random\n",
+        "\n",
+        "# List of words for the game\n",
+        "word_list = [\"door\", \"pink\", \"apple\", \"year\", \"beautiful\", \"pig\", \"grape\", \"moon\"]\n",
+        "\n",
+        "def choose_word():\n",
+        "    return random.choice(word_list)\n",
+        "\n",
+        "def display_word(word, guessed_letters):\n",
+        "    display = \"\"\n",
+        "    for letter in word:\n",
+        "        if letter in guessed_letters:\n",
+        "            display += letter\n",
+        "        else:\n",
+        "            display += \"_\"\n",
+        "    return display\n",
+        "\n",
+        "def hangman():\n",
+        "    max_attempts = 6\n",
+        "    word_to_guess = choose_word()\n",
+        "    guessed_letters = []\n",
+        "    attempts = 0\n",
+        "\n",
+        "    print(\"Welcome to Hangman!\")\n",
+        "    print(\"Try to guess the word.\")\n",
+        "\n",
+        "    while True:\n",
+        "        print(\"\\nWord:\", display_word(word_to_guess, guessed_letters))\n",
+        "        guess = input(\"Guess a letter: \").lower()\n",
+        "\n",
+        "        if len(guess) != 1 or not guess.isalpha():\n",
+        "            print(\"Please enter a single letter.\")\n",
+        "            continue\n",
+        "\n",
+        "        if guess in guessed_letters:\n",
+        "            print(\"You've already guessed that letter.\")\n",
+        "            continue\n",
+        "\n",
+        "        guessed_letters.append(guess)\n",
+        "\n",
+        "        if guess in word_to_guess:\n",
+        "            print(\"Good guess!\")\n",
+        "        else:\n",
+        "            print(\"Oops! That letter is not in the word.\")\n",
+        "            attempts += 1\n",
+        "\n",
+        "        if \"_\" not in display_word(word_to_guess, guessed_letters):\n",
+        "            print(\"\\nCongratulations! You guessed the word:\", word_to_guess)\n",
+        "            break\n",
+        "\n",
+        "        if attempts >= max_attempts:\n",
+        "            print(\"\\nYou ran out of attempts. The word was:\", word_to_guess)\n",
+        "            break\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    hangman()\n",
+        "\n"
+      ]
+    }
+  ]
+}
