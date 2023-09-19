@@ -1,0 +1,46 @@
+import re
+from collections import Counter
+
+def read_file(filename):
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            return file.read()
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
+        return None
+
+def analyze_text(text):
+    if text is None:
+        return
+
+    # Count words, sentences, and paragraphs
+    words = re.findall(r'\b\w+\b', text)
+    sentences = re.split(r'[.!?]', text)
+    paragraphs = text.split('\n\n')
+
+    num_words = len(words)
+    num_sentences = len([s for s in sentences if s.strip()])
+    num_paragraphs = len(paragraphs)
+
+    # Calculate average word length
+    total_word_length = sum(len(word) for word in words)
+    average_word_length = total_word_length / num_words if num_words > 0 else 0
+
+    # Identify most common words and their frequencies
+    word_freq = Counter(words)
+    most_common_words = word_freq.most_common(10)
+
+    # Display results
+    print(f"Number of words: {num_words}")
+    print(f"Number of sentences: {num_sentences}")
+    print(f"Number of paragraphs: {num_paragraphs}")
+    print(f"Average word length: {average_word_length:.2f}")
+    print("\nMost common words:")
+    for word, freq in most_common_words:
+        print(f"{word}: {freq} times")
+
+if __name__ == "__main__":
+    filename = input("Enter the name of the text file: ")
+    text = read_file(filename)
+    if text:
+        analyze_text(text)
